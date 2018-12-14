@@ -16,7 +16,11 @@ import { ProfilePublicationComponent } from './profile-publication/profile-publi
 import { ProfileWebProfileComponent } from './profile-web-profile/profile-web-profile.component';
 import { ProfileWebLanguageComponent } from './profile-web-language/profile-web-language.component';
 import { ProfilePortfolioComponent } from './profile-portfolio/profile-portfolio.component';
-
+import { AngularCropperjsModule } from 'angular-cropperjs';
+import { ImageCropperComponent } from 'ng2-img-cropper';
+import { CoordinatesModule } from 'angular-coordinates';
+import { Ng5SliderModule } from 'ng5-slider';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -34,11 +38,17 @@ import { ProfilePortfolioComponent } from './profile-portfolio/profile-portfolio
     ProfilePublicationComponent,
     ProfileWebProfileComponent,
     ProfileWebLanguageComponent,
-    ProfilePortfolioComponent
+    ProfilePortfolioComponent,
+    ImageCropperComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    AngularCropperjsModule,
+    CoordinatesModule,
+    FormsModule,
+    ReactiveFormsModule,
+    Ng5SliderModule,
     RouterModule.forRoot([
       { path: '', component: BuzzComponent },
       { path: 'buzz', component: BuzzComponent },

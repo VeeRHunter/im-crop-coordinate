@@ -1,1 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
+
+.cropper-container {
+    width: 100% !important;
+    margin: auto;
+}
+
+.Grayscale {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+.Contrast {
+    -webkit-filter: contrast(200%);
+    filter: contrast(200%);
+}
+
+.Saturate {
+    -webkit-filter: saturate(200%);
+    filter: saturate(200%);
+}
+
+.Sepia {
+    -webkit-filter: sepia(80%);
+    filter: sepia(80%);
+}
+
+.Blur {
+    -webkit-filter: blur(5px);
+    filter: blur(5px);
+}
+
+.Brightness {
+    filter: brightness(0.9);
+}
+
+.image-body .ng5-slider .ng5-slider-pointer {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    top: -8px;
+    background-color: #0db9f0;
+    z-index: 3;
+    border-radius: 16px;
+}
+
+.image-body .ng5-slider .ng5-slider-pointer:after {
+    display: none;
+}
+
+.image-body .cropper-bg {
+    background-image: none;
+    background-color: black;
+}

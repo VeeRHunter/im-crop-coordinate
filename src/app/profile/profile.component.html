@@ -18,9 +18,12 @@
 						<div class="profile-cover-img" style="background-image: url(assets/images/sample-logos/bg3.jpg); height:250px"></div>
 						<div class="media">
 							<div class="media-left">
-								<a href="#" class="profile-thumb">
-									<img src="assets/images/5863c7afb5bcb_black-woman-thinking.-pf.jpg" class="img-circle" style="width: 120px; height: 120px"
-									 alt="">
+								<a class="profile-thumb" data-toggle="modal" data-target="#modal_theme_edit_profile_image">
+									<!-- <a class="profile-thumb"> -->
+									<!-- <img src="{{croppedImage}}" class="img-circle" style="width: 120px; height: 120px" alt="" (click)="cropImage()"
+									 *ngIf="cropEnable"> -->
+									<img src="{{croppedImage}}" class="img-circle {{mainFilter}}" style="width: 120px; height: 120px" alt=""
+									 (click)="cropImage()">
 								</a>
 							</div>
 
@@ -163,6 +166,20 @@
 
 
 				</div>
+
+
+				<!-- <div id="modal_theme_edit_profile_image" *ngIf="cropEnable">
+					<div class="edit-modal-body">
+						<div class="image-body">
+							<img src="assets/images/webdevelopment3.jpg">
+							<div>
+								<img id="image" src="assets/images/webdevelopment3.jpg" height="auto" width="100%" cropper>
+							</div>
+							<img-cropper [image]="data" [settings]="cropperSettings"></img-cropper><br>
+							<angular-cropper #angularCropper [cropperOptions]="cropperOptions" [imageUrl]="myImage" *ngIf="myImage"></angular-cropper>
+						</div>
+					</div>
+				</div> -->
 			</div>
 			<!-- /user profile -->
 
@@ -297,12 +314,91 @@
 			</div>
 		</div>
 	</div>
-	<!-- /add experience modal -->
+</div>
+<!-- /add experience modal -->
+
+
+<div id="modal_theme_edit_profile_image" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-info">
+				<button type="button" class="close" data-dismiss="modal" (click)="reset()">&times;</button>
+				<h6 class="modal-title">Edit Photo</h6>
+			</div>
+
+			<div class="modal-body">
+
+				<div class="tabbable" style="position:relative; top:-20px">
+
+					<div class="tab-content">
+
+						<div class="tab-pane active image-body" id="top-tab1">
+							<!-- <img src="assets/images/webdevelopment3.jpg">
+								<div>
+									<img id="image" src="assets/images/webdevelopment3.jpg" height="auto" width="100%" cropper>
+								</div>
+								<img-cropper [image]="data" [settings]="cropperSettings"></img-cropper><br> -->
+							<angular-cropper #angularCropper [cropperOptions]="cropperOptions" [imageUrl]="myImage" *ngIf="myImage"></angular-cropper>
+							<!-- <input #ramSelector min="0" max="0.8" step="0.05" type="range" value="0" class="zoom-range" (mousemove)="setZoomImage(ramSelector.value)"
+							 (mousedown)="rangeMouseDown()" (mouseup)="rangeMouseUp(ramSelector.value)" (click)="setZoomImage(ramSelector.value)" /> -->
+							<div class="zoom-slider">
+								<div class="row">
+									<div class="col-sm-9">
+										<div>
+											<!-- <ng5-slider [(value)]="value" [options]="options" (mousemove)="setZoomImage(value)" (mousedown)="rangeMouseDown()"
+											 (mouseup)="rangeMouseUp(value)" (click)="setZoomImage(value)"></ng5-slider> -->
+											<ng5-slider [(value)]="value" [options]="options" (mouseup)="rangeMouseUp(value)"></ng5-slider>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div>
+											<button type="button" class="btn btn-default" (click)="reset()">Reset</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="tab-pane filter-body" id="top-tab2">
+							<div class="filter-main-image">
+								<img src="{{preCropImage}}" class="{{selFilter}}">
+							</div>
+							<div class="filter-images">
+								<span>
+									<div class="each-filter-image" *ngFor="let list of filterList; let i = index">
+										<img src="{{preCropImage}}" class="{{list}}" [ngClass]="{'selected-filter':selIndex == i, 'unselect-filter':selIndex != i}"
+										 (click)="selectImage(i)">
+										<br>
+										<div [ngClass]="{'selected-font':selIndex == i, 'unselect-font':selIndex != i}">
+											{{list}}
+										</div>
+									</div>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<ul class="nav nav-tabs nav-tabs-top">
+						<li class="active"><a href="#top-tab1" data-toggle="tab">Crop</a></li>
+						<li><a href="#top-tab2" data-toggle="tab" (click)="getPrePhoto()">Filter</a></li>
+					</ul>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default">Change photo</button>
+					<button type="button" class="btn btn-info" (click)="savePhoto()">Save photo</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 
-	<!-- edit headline modal -->
-	<div id="modal_theme_update_contact" class="modal fade">
+
+
+<!-- edit headline modal -->
+<!-- <div id="modal_theme_update_contact" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-info">
@@ -418,5 +514,5 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- /edit headline modal -->
+		</div> -->
+<!-- /edit headline modal -->

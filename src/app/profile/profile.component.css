@@ -1,0 +1,131 @@
+/* .image-body {
+    margin-bottom: 30px;
+} */
+
+.image-body img {
+    width: 80%;
+    margin-left: 10%;
+    max-width: 100%;
+}
+
+.image-body canvas {
+    width: 100% !important;
+}
+
+.page-content {
+    position: relative;
+}
+
+.cropper-container {
+    width: 100% !important;
+}
+
+.zoom-range {
+    background-size: 100%, 300% 100%, 200%;
+    background-position: left top, 0px -100%, calc(100% - -10px) center;
+}
+
+/* #modal_theme_edit_profile_image {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#modal_theme_edit_profile_image .edit-modal-body {
+    width: 600px;
+    height: 450px;
+    margin-top: auto;
+    margin: auto;
+    background-color: black;
+} */
+
+.filter-body {
+    width: 100%;
+    height: 340px;
+    margin: auto;
+    background-color: black;
+}
+
+.filter-main-image {
+    width: 100%;
+    height: 240px;
+    display: flex;
+}
+
+.filter-main-image img {
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    border-radius: 50%;
+}
+
+.filter-images {
+    width: 100%;
+    height: 100px;
+}
+
+.filter-images span {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 100px;
+    overflow-x: auto;
+}
+
+.filter-images img {
+    width: 50px;
+    height: 50px;
+    margin: auto 10px;
+    border-radius: 50%;
+}
+
+.each-filter-image div {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.selected-filter {
+    border: 2px solid white;
+    color: white;
+}
+
+.unselect-filter {
+    border: none;
+    color: #333333;
+}
+
+.selected-font {
+    color: white;
+}
+
+.unselect-font {
+    color: #333333;
+}
+
+.zoom-slider {
+    height: 36px;
+    margin-top: 4px;
+}
+
+.zoom-slider .row {
+    display: flex;
+}
+
+.zoom-slider .col-sm-9 {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.zoom-slider .col-sm-3 {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.zoom-slider ng5-slider {
+    margin: auto;
+}
