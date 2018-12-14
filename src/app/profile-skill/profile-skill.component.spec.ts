@@ -8,9 +8,9 @@ describe('ProfileSkillComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileSkillComponent ]
+      declarations: [ProfileSkillComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

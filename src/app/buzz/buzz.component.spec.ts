@@ -8,9 +8,9 @@ describe('BuzzComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BuzzComponent ]
+      declarations: [BuzzComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

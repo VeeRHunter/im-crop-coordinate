@@ -8,9 +8,9 @@ describe('ProfileWebLanguageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileWebLanguageComponent ]
+      declarations: [ProfileWebLanguageComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

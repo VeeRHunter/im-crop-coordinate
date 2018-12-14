@@ -8,9 +8,9 @@ describe('ProfileCertificationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileCertificationComponent ]
+      declarations: [ProfileCertificationComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

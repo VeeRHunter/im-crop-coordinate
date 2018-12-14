@@ -40,21 +40,23 @@ import { ProfilePortfolioComponent } from './profile-portfolio/profile-portfolio
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      {path:'', component:BuzzComponent},
-      {path:'buzz', component:BuzzComponent},
-      {path:'profile', component:ProfileComponent,
-      children:[
-        {path:'experience', component:ProfileExperienceComponent},
-        {path:'education', component:ProfileEducationComponent},
-        {path:'skills', component:ProfileSkillComponent},
-        {path:'portfolio', component:ProfilePortfolioComponent},
-        {path:'certification', component:ProfileCertificationComponent},
-        {path:'project', component:ProfileProjectComponent},
-        {path:'award', component:ProfileAwardComponent},
-        {path:'publication', component:ProfilePublicationComponent},
-        {path:'web-profile', component:ProfileWebProfileComponent},
-        {path:'language', component:ProfileWebLanguageComponent}
-      ]}, 
+      { path: '', component: BuzzComponent },
+      { path: 'buzz', component: BuzzComponent },
+      {
+        path: 'profile', component: ProfileComponent,
+        children: [
+          { path: 'experience', component: ProfileExperienceComponent },
+          { path: 'education', component: ProfileEducationComponent },
+          { path: 'skills', component: ProfileSkillComponent },
+          { path: 'portfolio', component: ProfilePortfolioComponent },
+          { path: 'certification', component: ProfileCertificationComponent },
+          { path: 'project', component: ProfileProjectComponent },
+          { path: 'award', component: ProfileAwardComponent },
+          { path: 'publication', component: ProfilePublicationComponent },
+          { path: 'web-profile', component: ProfileWebProfileComponent },
+          { path: 'language', component: ProfileWebLanguageComponent }
+        ]
+      },
     ])
   ],
   providers: [],
