@@ -52,3 +52,18 @@
     background-image: none;
     background-color: black;
 }
+
+.tab-content .mat-slider-thumb {
+    background-color: #0db9f0;
+}
+
+.tab-content .mat-slider-ticks-container {
+    background: #d8e0f3;
+    height: 4px !important;
+    border-radius: 2px;
+}
+
+
+.tab-content mat-slider {
+    width: 100%;
+}

@@ -19,6 +19,8 @@ import { ProfilePortfolioComponent } from './profile-portfolio/profile-portfolio
 import { AngularCropperjsModule } from 'angular-cropperjs';
 import { Ng5SliderModule } from 'ng5-slider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSliderModule} from '@angular/material/slider';
 
 
 @NgModule({
@@ -40,11 +42,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule,
+    Ng5SliderModule,
+    BrowserAnimationsModule,
+    MatSliderModule,
     HttpClientModule,
     AngularCropperjsModule,
     FormsModule,
     ReactiveFormsModule,
-    Ng5SliderModule,
     RouterModule.forRoot([
       { path: '', component: BuzzComponent },
       { path: 'buzz', component: BuzzComponent },

@@ -347,8 +347,10 @@
 											</span>
 										</div>
 										<div>
-											<ng5-slider id="pro_str_value" [(value)]="strValue" [(highValue)]="strMaxValue" [options]="strOptions" (userChangeStart)="strightenMouseDown()"
-											 (userChangeEnd)="strightenMouseUp(strValue)" (userChange)="strightenMouseUp(strValue)"></ng5-slider>
+											<!-- <ng5-slider id="pro_str_value" [(value)]="strValue" [(highValue)]="strMaxValue" [options]="strOptions"
+											 (userChangeStart)="strightenMouseDown()" (userChangeEnd)="strightenMouseUp(strValue)" (userChange)="strightenMouseUp(strValue)"></ng5-slider> -->
+											<mat-slider min=-180 max=180 step="1" [(ngModel)]="strValue" (mousedown)="sliderMouseDown()" (mousemove)="sliderMouseDown()"
+											 (mouseup)="strightenMouseUp(strValue)"></mat-slider>
 										</div>
 									</div>
 								</div>

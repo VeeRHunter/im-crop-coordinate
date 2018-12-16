@@ -332,4 +332,8 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  sliderMouseDown() {
+
+  }
+
 }
