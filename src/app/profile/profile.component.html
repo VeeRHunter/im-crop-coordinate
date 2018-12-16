@@ -15,13 +15,11 @@
 
 					<!-- Cover area -->
 					<div class="profile-cover">
-						<div class="profile-cover-img" style="background-image: url(assets/images/sample-logos/bg3.jpg); height:250px"></div>
+						<div class="profile-cover-img" id="profile_background" [ngStyle]="{'background-image':backCroppedImage}"></div>
 						<div class="media">
 							<div class="media-left">
 								<a class="profile-thumb" data-toggle="modal" data-target="#modal_theme_edit_profile_image">
 									<!-- <a class="profile-thumb"> -->
-									<!-- <img src="{{croppedImage}}" class="img-circle" style="width: 120px; height: 120px" alt="" (click)="cropImage()"
-									 *ngIf="cropEnable"> -->
 									<img src="{{croppedImage}}" class="img-circle {{mainFilter}}" style="width: 120px; height: 120px" alt=""
 									 (click)="cropImage()">
 								</a>
@@ -33,7 +31,9 @@
 
 							<div class="media-right media-middle">
 								<ul class="list-inline list-inline-condensed no-margin-bottom text-nowrap">
-									<li><a href="#" class="btn btn-default"><i class="icon-file-picture position-left"></i> Cover image</a></li>
+									<li><a data-toggle="modal" data-target="#modal_theme_edit_background_image" class="btn btn-default" (click)="openProfileBackground()"><i
+											 class="icon-file-picture position-left"></i>
+											Cover image</a></li>
 									<li><a href="#" class="btn btn-default"><i class="icon-file-stats position-left"></i> Statistics</a></li>
 								</ul>
 							</div>
@@ -167,19 +167,6 @@
 
 				</div>
 
-
-				<!-- <div id="modal_theme_edit_profile_image" *ngIf="cropEnable">
-					<div class="edit-modal-body">
-						<div class="image-body">
-							<img src="assets/images/webdevelopment3.jpg">
-							<div>
-								<img id="image" src="assets/images/webdevelopment3.jpg" height="auto" width="100%" cropper>
-							</div>
-							<img-cropper [image]="data" [settings]="cropperSettings"></img-cropper><br>
-							<angular-cropper #angularCropper [cropperOptions]="cropperOptions" [imageUrl]="myImage" *ngIf="myImage"></angular-cropper>
-						</div>
-					</div>
-				</div> -->
 			</div>
 			<!-- /user profile -->
 
@@ -333,28 +320,44 @@
 					<div class="tab-content">
 
 						<div class="tab-pane active image-body" id="top-tab1">
-							<!-- <img src="assets/images/webdevelopment3.jpg">
-								<div>
-									<img id="image" src="assets/images/webdevelopment3.jpg" height="auto" width="100%" cropper>
-								</div>
-								<img-cropper [image]="data" [settings]="cropperSettings"></img-cropper><br> -->
 							<angular-cropper #angularCropper [cropperOptions]="cropperOptions" [imageUrl]="myImage" *ngIf="myImage"></angular-cropper>
-							<!-- <input #ramSelector min="0" max="0.8" step="0.05" type="range" value="0" class="zoom-range" (mousemove)="setZoomImage(ramSelector.value)"
-							 (mousedown)="rangeMouseDown()" (mouseup)="rangeMouseUp(ramSelector.value)" (click)="setZoomImage(ramSelector.value)" /> -->
+							<!-- <angular-cropper #angularCropper [cropperOptions]="cropperOptions" [imageUrl]="myImage" *ngIf="myImage"></angular-cropper> -->
 							<div class="zoom-slider">
-								<div class="row">
-									<div class="col-sm-9">
+								<div class="row slider-row">
+									<div class="col-sm-6">
+										<div class="slider-title-row">
+											<span class="slider-title">
+												Zoom
+											</span>
+											<!-- <span class="slider-value">
+												{{value}}
+											</span> -->
+										</div>
 										<div>
-											<!-- <ng5-slider [(value)]="value" [options]="options" (mousemove)="setZoomImage(value)" (mousedown)="rangeMouseDown()"
-											 (mouseup)="rangeMouseUp(value)" (click)="setZoomImage(value)"></ng5-slider> -->
-											<ng5-slider [(value)]="value" [options]="options" (mouseup)="rangeMouseUp(value)"></ng5-slider>
+											<ng5-slider [(value)]="value" [options]="options" (userChangeEnd)="setZoomImage(value)" (userChange)="setZoomImage(value)"></ng5-slider>
 										</div>
 									</div>
-									<div class="col-sm-3">
+									<div class="col-sm-6">
+										<div class="slider-title-row">
+											<span class="slider-title">
+												Straighten
+											</span>
+											<span class="slider-value">
+												{{strValue}}
+											</span>
+										</div>
 										<div>
-											<button type="button" class="btn btn-default" (click)="reset()">Reset</button>
+											<ng5-slider id="pro_str_value" [(value)]="strValue" [(highValue)]="strMaxValue" [options]="strOptions" (userChangeStart)="strightenMouseDown()"
+											 (userChangeEnd)="strightenMouseUp(strValue)" (userChange)="strightenMouseUp(strValue)"></ng5-slider>
 										</div>
 									</div>
+								</div>
+								<div class="crop-setting">
+									<span class="crop-span-button">
+										<button type="button" class="btn btn-default" (click)="flipX()">FlipX</button>
+										<button type="button" class="btn btn-default" (click)="flipY()">FlipY</button>
+										<button type="button" class="btn btn-default" (click)="reset()">Reset</button>
+									</span>
 								</div>
 							</div>
 						</div>
@@ -365,6 +368,64 @@
 							</div>
 							<div class="filter-images">
 								<span>
+									<div class="each-filter-image">
+										<img src="{{preCropImage}}" class="Original" [ngClass]="{'selected-filter':selFilter == 'Original', 'unselect-filter':selFilter != 'Original'}"
+										 (click)="selectImage('Original')">
+										<br>
+										<div [ngClass]="{'selected-font':selFilter == 'Original', 'unselect-font':selFilter != 'Original'}">
+											Original
+										</div>
+									</div>
+								</span>
+								<span class="middle-padding-bottom">
+									<div class="each-filter-image">
+										<img src="{{preCropImage}}" class="Brightness" [ngClass]="{'selected-filter':selFilter == 'Brightness', 'unselect-filter':selFilter != 'Brightness'}"
+										 (click)="selectImage('Brightness')">
+										<br>
+										<div [ngClass]="{'selected-font':selFilter == 'Brightness', 'unselect-font':selFilter != 'Brightness'}">
+											Brightness
+										</div>
+									</div>
+									<div class="each-filter-image middle-filter">
+										<img src="{{preCropImage}}" class="Contrast" [ngClass]="{'selected-filter':selFilter == 'Contrast', 'unselect-filter':selFilter != 'Contrast'}"
+										 (click)="selectImage('Contrast')">
+										<br>
+										<div [ngClass]="{'selected-font':selFilter == 'Contrast', 'unselect-font':selFilter != 'Contrast'}">
+											Contrast
+										</div>
+									</div>
+								</span>
+								<span class="middle-padding-top">
+									<div class="each-filter-image">
+										<img src="{{preCropImage}}" class="Grayscale" [ngClass]="{'selected-filter':selFilter == 'Grayscale', 'unselect-filter':selFilter != 'Grayscale'}"
+										 (click)="selectImage('Grayscale')">
+										<br>
+										<div [ngClass]="{'selected-font':selFilter == 'Grayscale', 'unselect-font':selFilter != 'Grayscale'}">
+											Grayscale
+										</div>
+									</div>
+									<div class="each-filter-image middle-filter">
+										<img src="{{preCropImage}}" class="Saturate" [ngClass]="{'selected-filter':selFilter == 'Saturate', 'unselect-filter':selFilter != 'Saturate'}"
+										 (click)="selectImage('Saturate')">
+										<br>
+										<div [ngClass]="{'selected-font':selFilter == 'Saturate', 'unselect-font':selFilter != 'Saturate'}">
+											Saturate
+										</div>
+									</div>
+								</span>
+								<span>
+									<div class="each-filter-image">
+										<img src="{{preCropImage}}" class="Sepia" [ngClass]="{'selected-filter':selFilter == 'Sepia', 'unselect-filter':selFilter != 'Sepia'}"
+										 (click)="selectImage('Sepia')">
+										<br>
+										<div [ngClass]="{'selected-font':selFilter == 'Sepia', 'unselect-font':selFilter != 'Sepia'}">
+											Sepia
+										</div>
+									</div>
+								</span>
+							</div>
+							<!-- <div class="filter-images">
+								<span>
 									<div class="each-filter-image" *ngFor="let list of filterList; let i = index">
 										<img src="{{preCropImage}}" class="{{list}}" [ngClass]="{'selected-filter':selIndex == i, 'unselect-filter':selIndex != i}"
 										 (click)="selectImage(i)">
@@ -374,7 +435,7 @@
 										</div>
 									</div>
 								</span>
-							</div>
+							</div> -->
 						</div>
 					</div>
 
@@ -385,7 +446,8 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default">Change photo</button>
+					<button type="button" class="btn btn-default" (click)="openNewProfilePhoto()">Change photo</button>
+					<input type="file" id="profile_image_open" accept="image/x-png, image/jpeg" (change)="getProfilePhoto($event)">
 					<button type="button" class="btn btn-info" (click)="savePhoto()">Save photo</button>
 				</div>
 			</div>
@@ -393,126 +455,71 @@
 	</div>
 </div>
 
+<div id="modal_theme_edit_background_image" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-info">
+				<button type="button" class="close" data-dismiss="modal" (click)="reset()">&times;</button>
+				<h6 class="modal-title">Edit Photo</h6>
+			</div>
 
+			<div class="modal-body">
 
+				<div class="tabbable" style="position:relative; top:-20px">
 
+					<div class="tab-content">
 
-<!-- edit headline modal -->
-<!-- <div id="modal_theme_update_contact" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header bg-info">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h6 class="modal-title">Update Heading</h6>
+						<div class="tab-pane active image-body" id="top-tab1">
+							<angular-cropper #backCropper [cropperOptions]="backCropperOptions" [imageUrl]="backImage" *ngIf="backImage"></angular-cropper>
+							<div class="zoom-slider">
+								<div class="row slider-row">
+									<div class="col-sm-6">
+										<div class="slider-title-row">
+											<span class="slider-title">
+												Zoom
+											</span>
+											<!-- <span class="slider-value">
+												{{value}}
+											</span> -->
+										</div>
+										<div>
+											<ng5-slider [(value)]="backValue" [options]="backOptions" (userChangeEnd)="setBackZoomImage(backValue)"
+											 (userChange)="setBackZoomImage(backValue)"></ng5-slider>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="slider-title-row">
+											<span class="slider-title">
+												Straighten
+											</span>
+											<span class="slider-value">
+												{{backStrValue}}
+											</span>
+										</div>
+										<div>
+											<ng5-slider [(value)]="backStrValue" [options]="backStrOptions" (userChangeStart)="strightenBackMouseDown()"
+											 (userChangeEnd)="strightenBackMouseUp(backStrValue)" (userChange)="strightenBackMouseUp(backStrValue)"></ng5-slider>
+										</div>
+									</div>
+								</div>
+								<div class="crop-setting">
+									<span class="crop-span-button">
+										<button type="button" class="btn btn-default" (click)="backFlipX()">FlipX</button>
+										<button type="button" class="btn btn-default" (click)="backFlipY()">FlipY</button>
+										<button type="button" class="btn btn-default" (click)="backReset()">Reset</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<div class="modal-body">
-
-					<div class="form-group">
-						<div class="row">
-							<div class="col-sm-12">
-								<label class="text-semibold">Address</label>
-								<input type="text" placeholder="" class="form-control">
-							</div>
-
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="row">
-							<div class="col-sm-4">
-								<label class="text-semibold">City</label>
-								<input type="text" placeholder="" class="form-control">
-							</div>
-							<div class="col-sm-4">
-								<label class="text-semibold">State</label>
-								<input type="text" placeholder="" class="form-control">
-							</div>
-
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="text-semibold">Country</label>
-									<select data-placeholder="Select type..." class="select">
-										<option>Nigeria</option>
-										<option>USA</option>
-										<option value="AZ">United Kingdom</option>
-										<option value="CO">India</option>
-										<option value="ID">China</option>
-										<option value="WY">Japan</option>
-									</select>
-								</div>
-
-							</div>
-
-
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="row">
-							<div class="col-sm-6">
-								<label class="text-semibold">Email</label>
-								<input type="text" placeholder="" class="form-control">
-							</div>
-							<div class="col-sm-4">
-								<label class="text-semibold">Mobile phone</label>
-								<input type="text" placeholder="" class="form-control">
-							</div>
-
-						</div>
-					</div>
-
-
-
-					<div class="form-group">
-						<div class="row">
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="text-semibold">Birthday</label>
-									<select data-placeholder="Select type..." class="select">
-										<option>January</option>
-										<option>February</option>
-										<option value="AZ">March</option>
-										<option value="CO">April</option>
-										<option value="ID">May</option>
-										<option value="WY">June</option>
-										<option value="AZ">July</option>
-										<option value="CO">August</option>
-										<option value="ID">September</option>
-										<option value="WY">October</option>
-										<option value="AZ">November</option>
-										<option value="CO">December</option>
-									</select>
-								</div>
-							</div>
-
-							<div class="col-sm-2">
-								<label class="text-semibold">&nbsp;&nbsp;</label>
-								<input type="text" placeholder="" class="form-control">
-							</div>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<div class="row">
-							<div class="col-sm-6">
-								<label class="text-semibold">Twitter Profile</label>
-								<input type="text" placeholder="" class="form-control">
-							</div>
-							<div class="col-sm-6">
-								<label class="text-semibold">Facebook Profile</label>
-								<input type="text" placeholder="" class="form-control">
-							</div>
-
-						</div>
-					</div>
-
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-info">Save changes</button>
-					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" (click)="openNewBackImage()">Change photo</button>
+					<input type="file" id="back_image_open" accept="image/x-png, image/jpeg" (change)="getBackImage($event)">
+					<button type="button" class="btn btn-info" (click)="saveBackImage()">Save photo</button>
 				</div>
 			</div>
-		</div> -->
-<!-- /edit headline modal -->
+		</div>
+	</div>
+</div>

@@ -1,13 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { trigger, state, animate, transition, style, keyframes, query, stagger } from '@angular/animations';
+import { Component, OnInit, ViewChild, } from '@angular/core';
+import { trigger, animate, transition, style, query, stagger } from '@angular/animations';
 import { AngularCropperjsComponent } from 'angular-cropperjs';
 
-import Cropper from 'cropperjs';
-import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
 declare var $: any;
 
-import { CoordinatesService, TransformationType, Direction } from 'angular-coordinates';
 import { Options } from 'ng5-slider';
+import { range } from 'rxjs/observable/range';
 
 
 
@@ -43,31 +41,35 @@ import { Options } from 'ng5-slider';
 export class ProfileComponent implements OnInit {
   isLoggedin = false;
   @ViewChild('angularCropper') public angularCropper: AngularCropperjsComponent;
+  @ViewChild('backCropper') public backCropper: AngularCropperjsComponent;
   cropperOptions: any;
+  backCropperOptions: any;
 
-  public filterList = ['original', 'Brightness', 'Contrast', 'Grayscale', 'Saturate', 'Sepia'];
+  public filterList = ['Original', 'Brightness', 'Contrast', 'Grayscale', 'Saturate', 'Sepia'];
 
-  data: any;
-  cropperSettings: CropperSettings;
-
-  public img: any;
-  public cropper: any;
-  public cropEnable = false;
   public croppedImage: any;
-  public zoomRange = 1.0;
 
   public preCropImage: any;
   public selIndex: any;
   public selFilter: any;
   public mainFilter: any;
-  public enableZoom = false;
-  public direction = Direction;
-  public type = TransformationType;
-  value = 0.1;
-  options: Options = {
-    floor: 0.1,
-    ceil: 2,
-    step: 0.05,
+
+  public value = 0;
+  public options: Options = {
+    floor: 0,
+    ceil: 10,
+    step: 0.1,
+    hidePointerLabels: true,
+    autoHideLimitLabels: true,
+    hideLimitLabels: true
+  };
+
+  public strValue = 0;
+  // public strMaxValue = 20;
+  public strOptions: Options = {
+    floor: -180,
+    ceil: 180,
+    step: 1,
     hidePointerLabels: true,
     autoHideLimitLabels: true,
     hideLimitLabels: true
@@ -78,55 +80,82 @@ export class ProfileComponent implements OnInit {
   scaleValY = 1;
 
 
+  public backCroppedImage: any;
+  public backValue = 0;
+  public backOptions: Options = {
+    floor: 0,
+    ceil: 10,
+    step: 0.1,
+    hidePointerLabels: true,
+    autoHideLimitLabels: true,
+    hideLimitLabels: true
+  };
 
-  constructor(public coordinatesService: CoordinatesService) {
+  public backStrValue = 0;
+  public backStrOptions: Options = {
+    floor: -180,
+    ceil: 180,
+    step: 1,
+    hidePointerLabels: true,
+    autoHideLimitLabels: true,
+    hideLimitLabels: true
+  };
+
+  backImage = null;
+  backScaleValX = 1;
+  backScaleValY = 1;
+
+  constructor() {
+  }
+
+  ngOnInit() {
+    this.selectImage('Original');
+    this.myImage = 'assets/images/webdevelopment3.jpg';
+    this.backImage = 'assets/images/sample-logos/bg3.jpg';
+
+    this.croppedImage = 'assets/images/5863c7afb5bcb_black-woman-thinking.-pf.jpg';
     this.cropperOptions = {
-      dragMode: 'crop',
+      dragMode: 'move',
       aspectRatio: 1,
       autoCrop: true,
       movable: true,
       zoomable: true,
       scalable: true,
-      autoCropArea: 0.8,
+      autoCropArea: 1,
       minContainerWidth: 558,
       minContainerHeight: 300,
-      minCropBoxWidth: 120,
-      minCropBoxHeight: 120,
       zoomOnWheel: false,
       rounded: true,
+      cropBoxMovable: false,
+      cropBoxResizable: false,
     };
 
-    this.cropperSettings = new CropperSettings();
-    this.cropperSettings.width = 100;
-    this.cropperSettings.height = 100;
-    this.cropperSettings.croppedWidth = 100;
-    this.cropperSettings.croppedHeight = 100;
-    this.cropperSettings.canvasHeight = 300;
 
-    this.data = {};
-    this.croppedImage = 'assets/images/5863c7afb5bcb_black-woman-thinking.-pf.jpg';
-    this.data.original = 'assets/images/webdevelopment3.jpg';
-
-  }
-
-  ngOnInit() {
-    this.selectImage(0);
-    this.myImage = 'assets/images/webdevelopment3.jpg';
-    this.img = document.getElementById('image');
-    this.cropper = new Cropper(this.img, {
-      aspectRatio: 16 / 9,
-      crop(event) {
-      },
-    });
+    this.backCroppedImage = 'url(assets/images/sample-logos/bg3.jpg)';
+    const backImageData = document.getElementById('profile_background');
+    // or however you get a handle to the IMG
+    this.backCropperOptions = {
+      dragMode: 'move',
+      aspectRatio: backImageData.clientWidth / backImageData.clientHeight,
+      autoCrop: true,
+      movable: true,
+      zoomable: true,
+      scalable: true,
+      autoCropArea: 1,
+      minContainerWidth: 558,
+      minContainerHeight: 300,
+      zoomOnWheel: false,
+      rounded: true,
+      cropBoxMovable: false,
+      cropBoxResizable: false,
+    };
   }
 
   savePhoto() {
     const croppedImgB64String = this.angularCropper.cropper.getCroppedCanvas().toDataURL('image/jpeg', (100 / 100));
     this.croppedImage = croppedImgB64String;
     this.mainFilter = this.selFilter;
-    const modalItem = document.getElementById('modal_theme_edit_profile_image');
     $('#modal_theme_edit_profile_image').modal('toggle');
-    this.cropEnable = false;
 
 
     if (navigator.geolocation) {
@@ -145,15 +174,17 @@ export class ProfileComponent implements OnInit {
   }
 
   cropImage() {
-    this.cropEnable = true;
     setTimeout(() => {
-      this.setRangeFromImage();
+      this.strightenBackMouseUp(0);
+      $('#pro_str_value').slideDown('normal');
+      // this.setRangeFromImage();
+      // this.reset();
     }, 1000);
   }
 
-  selectImage(index) {
-    this.selIndex = index;
-    this.selFilter = this.filterList[index];
+  selectImage(className) {
+    this.selIndex = className;
+    this.selFilter = className;
     $('.cropper-hide').addClass(this.selFilter);
     if (typeof ($('.cropper-hide').attr('class')) !== 'undefined') {
       const classList = $('.cropper-hide').attr('class').split(/\s+/);
@@ -166,63 +197,138 @@ export class ProfileComponent implements OnInit {
   }
 
   setZoomImage(rangeValue) {
-    if (this.enableZoom) {
-      // this.setRangeFromImage();
-      const croppedData = this.angularCropper.cropper.getCropBoxData();
-      this.angularCropper.cropper.zoomTo(rangeValue, {
-        x: croppedData.width / 2 + croppedData.left,
-        y: croppedData.height / 2 + croppedData.top,
-      });
-      // this.angularCropper.cropper.scale(rangeValue);
-      this.angularCropper.cropper.zoomTo(this.zoomRange);
-    }
-  }
-
-  rangeMouseDown() {
-    this.enableZoom = true;
-
-  }
-
-  rangeMouseUp(rangeValue) {
-    this.enableZoom = false;
     this.setRangeFromImage();
     const croppedData = this.angularCropper.cropper.getCropBoxData();
     this.angularCropper.cropper.zoomTo(rangeValue, {
       x: croppedData.width / 2 + croppedData.left,
       y: croppedData.height / 2 + croppedData.top,
     });
-    // this.angularCropper.cropper.scale(1, 1);
   }
 
   reset() {
+    this.value = 0;
+    this.strValue = 0;
     this.angularCropper.cropper.reset();
   }
 
   setRangeFromImage() {
-    const canvasData = this.angularCropper.cropper.getCanvasData();
-    let canMin = canvasData.width;
-    let camMax = canvasData.width;
-    if (canvasData.width > canvasData.height) {
-      canMin = canvasData.height;
-      camMax = canvasData.width;
-    } else {
-      canMin = canvasData.width;
-      camMax = canvasData.height;
-    }
-    const croppedData = this.angularCropper.cropper.getCropBoxData();
-    const cropMin = croppedData.width;
 
-    if (cropMin === canMin) {
+  }
 
-      this.value = (Math.round(((camMax - cropMin) / 11) * 10)) / 100.00;
-      this.options = {
-        floor: this.value,
-        ceil: 2,
-        step: 0.05,
-        hidePointerLabels: true,
-        autoHideLimitLabels: true,
-        hideLimitLabels: true
+  strightenMouseUp(strightenValue) {
+    this.angularCropper.cropper.rotateTo(strightenValue);
+  }
+
+  strightenMouseDown() {
+    console.log('Strighten MouseDown');
+  }
+
+  flipX() {
+    this.scaleValX = this.scaleValX * -1;
+    this.angularCropper.cropper.scaleX(this.scaleValX);
+  }
+
+  flipY() {
+    this.scaleValY = this.scaleValY * -1;
+    this.angularCropper.cropper.scaleY(this.scaleValY);
+  }
+
+  move(x, y) {
+    this.angularCropper.cropper.move(x, y);
+  }
+
+  setBackZoomImage(rangeValue) {
+    // console.log(rangeValue);
+    this.setRangeFromBackImage();
+    const croppedData = this.backCropper.cropper.getCropBoxData();
+    this.backCropper.cropper.zoomTo(rangeValue, {
+      x: croppedData.width / 2 + croppedData.left,
+      y: croppedData.height / 2 + croppedData.top,
+    });
+  }
+
+  openNewProfilePhoto() {
+    document.getElementById('profile_image_open').click();
+  }
+
+
+  getProfilePhoto(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      // tslint:disable-next-line:no-shadowed-variable
+      reader.onload = (event: any) => {
+        this.angularCropper.cropper.destroy();
+        this.myImage = event.target.result;
+        console.log(this.myImage);
       };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  setRangeFromBackImage() {
+
+  }
+
+  openProfileBackground() {
+    setTimeout(() => {
+      // this.backReset();
+    }, 1000);
+  }
+
+  strightenBackMouseDown() {
+    console.log('Strighten MouseDown');
+  }
+
+  strightenBackMouseUp(strightenValue) {
+    this.value = 0;
+    this.backCropper.cropper.rotateTo(strightenValue);
+  }
+
+  backFlipX() {
+    this.backScaleValX = this.backScaleValX * -1;
+    this.backCropper.cropper.scaleX(this.backScaleValX);
+  }
+
+  backFlipY() {
+    this.backScaleValY = this.backScaleValY * -1;
+    this.backCropper.cropper.scaleY(this.backScaleValY);
+  }
+
+  backReset() {
+    this.backValue = 0;
+    this.backStrValue = 0;
+    this.backCropper.cropper.reset();
+  }
+
+  saveBackImage() {
+    const croppedImgB64String = this.backCropper.cropper.getCroppedCanvas().toDataURL('image/jpeg', (100 / 100));
+    this.backCroppedImage = 'url(' + croppedImgB64String + ')';
+    $('#modal_theme_edit_background_image').modal('toggle');
+
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position);
+      });
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+
+  }
+
+  openNewBackImage() {
+    document.getElementById('back_image_open').click();
+  }
+
+  getBackImage(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      // tslint:disable-next-line:no-shadowed-variable
+      reader.onload = (event: any) => {
+        this.backCropper.cropper.destroy();
+        this.backImage = event.target.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
     }
   }
 
