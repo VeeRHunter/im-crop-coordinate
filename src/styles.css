@@ -57,11 +57,11 @@
     background-color: #0db9f0;
 }
 
-.tab-content .mat-slider-ticks-container {
+/* .tab-content .mat-slider-ticks-container {
     background: #d8e0f3;
     height: 4px !important;
     border-radius: 2px;
-}
+} */
 
 
 .tab-content mat-slider {

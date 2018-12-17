@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, } from '@angular/core';
 import { trigger, animate, transition, style, query, stagger } from '@angular/animations';
 import { AngularCropperjsComponent } from 'angular-cropperjs';
 
@@ -48,11 +48,13 @@ export class ProfileComponent implements OnInit {
   public filterList = ['Original', 'Brightness', 'Contrast', 'Grayscale', 'Saturate', 'Sepia'];
 
   public croppedImage: any;
+  public enableSlide = false;
 
   public preCropImage: any;
   public selIndex: any;
   public selFilter: any;
   public mainFilter: any;
+  public filterState = false;
 
   public value = 0;
   public options: Options = {
@@ -65,7 +67,6 @@ export class ProfileComponent implements OnInit {
   };
 
   public strValue = 0;
-  // public strMaxValue = 20;
   public strOptions: Options = {
     floor: -180,
     ceil: 180,
@@ -79,7 +80,11 @@ export class ProfileComponent implements OnInit {
   scaleValX = 1;
   scaleValY = 1;
 
-
+  public preBcakImage: any;
+  public backFilterState = false;
+  public selBackFilter: any;
+  public mainBackFilter: any;
+  public mainBcakImage: any;
   public backCroppedImage: any;
   public backValue = 0;
   public backOptions: Options = {
@@ -105,11 +110,12 @@ export class ProfileComponent implements OnInit {
   backScaleValX = 1;
   backScaleValY = 1;
 
-  constructor() {
+  constructor(private detRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.selectImage('Original');
+    this.selectBackImage('Original');
     this.myImage = 'assets/images/webdevelopment3.jpg';
     this.backImage = 'assets/images/sample-logos/bg3.jpg';
 
@@ -171,26 +177,26 @@ export class ProfileComponent implements OnInit {
   getPrePhoto() {
     const croppedImgB64String = this.angularCropper.cropper.getCroppedCanvas().toDataURL('image/jpeg', (100 / 100));
     this.preCropImage = croppedImgB64String;
+    $('#top-tab1').hide();
+    $('#top-tab2').show();
   }
 
   cropImage() {
-    setTimeout(() => {
-      this.strightenBackMouseUp(0);
-      $('#pro_str_value').slideDown('normal');
-      // this.setRangeFromImage();
-      // this.reset();
-    }, 1000);
+    $('#modal_theme_edit_profile_image').css('display', 'flex');
   }
 
   selectImage(className) {
     this.selIndex = className;
     this.selFilter = className;
-    $('.cropper-hide').addClass(this.selFilter);
-    if (typeof ($('.cropper-hide').attr('class')) !== 'undefined') {
-      const classList = $('.cropper-hide').attr('class').split(/\s+/);
-      for (const list of classList) {
-        if (list !== this.selFilter && list !== 'cropper-hide') {
-          $('.cropper-hide').removeClass(list);
+    if ($('#modal_theme_edit_profile_image').find('.cropper-hide') != null) {
+      $('#modal_theme_edit_profile_image').find('.cropper-hide').addClass(this.selFilter);
+      console.log($('#modal_theme_edit_profile_image').find('.cropper-hide'));
+      if (typeof ($('#modal_theme_edit_profile_image').find('.cropper-hide').attr('class')) !== 'undefined') {
+        const classList = $('#modal_theme_edit_profile_image').find('.cropper-hide').attr('class').split(/\s+/);
+        for (const list of classList) {
+          if (list !== this.selFilter && list !== 'cropper-hide') {
+            $('#modal_theme_edit_profile_image').find('.cropper-hide').removeClass(list);
+          }
         }
       }
     }
@@ -211,15 +217,21 @@ export class ProfileComponent implements OnInit {
     this.angularCropper.cropper.reset();
   }
 
+  closeModal() {
+    $('#modal_theme_edit_profile_image').css('display', 'none');
+  }
+
   setRangeFromImage() {
 
   }
 
   strightenMouseUp(strightenValue) {
+    this.enableSlide = false;
     this.angularCropper.cropper.rotateTo(strightenValue);
   }
 
   strightenMouseDown() {
+    this.enableSlide = true;
     console.log('Strighten MouseDown');
   }
 
@@ -260,6 +272,7 @@ export class ProfileComponent implements OnInit {
         this.angularCropper.cropper.destroy();
         this.myImage = event.target.result;
         console.log(this.myImage);
+        this.clickCrop();
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -273,6 +286,14 @@ export class ProfileComponent implements OnInit {
     setTimeout(() => {
       // this.backReset();
     }, 1000);
+  }
+
+  clickCrop() {
+    $('#top-tab1').show();
+    $('#top-tab-link1').addClass('active');
+    $('#top-tab2').hide();
+    $('#top-tab-link2').removeClass('active');
+    this.filterState = false;
   }
 
   strightenBackMouseDown() {
@@ -303,7 +324,9 @@ export class ProfileComponent implements OnInit {
   saveBackImage() {
     const croppedImgB64String = this.backCropper.cropper.getCroppedCanvas().toDataURL('image/jpeg', (100 / 100));
     this.backCroppedImage = 'url(' + croppedImgB64String + ')';
+    this.mainBackFilter = this.selBackFilter;
     $('#modal_theme_edit_background_image').modal('toggle');
+    $('#profile_background').addClass(this.mainBackFilter);
 
 
     if (navigator.geolocation) {
@@ -327,6 +350,7 @@ export class ProfileComponent implements OnInit {
       reader.onload = (event: any) => {
         this.backCropper.cropper.destroy();
         this.backImage = event.target.result;
+        this.clickBackCrop();
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -334,6 +358,37 @@ export class ProfileComponent implements OnInit {
 
   sliderMouseDown() {
 
+  }
+
+  clickBackCrop() {
+    $('#top-back-tab1').show();
+    $('#top-back-tab-link1').addClass('active');
+    $('#top-back-tab2').hide();
+    $('#top-back-tab-link2').removeClass('active');
+  }
+
+  getPreBackPhoto() {
+    const croppedImgB64String = this.backCropper.cropper.getCroppedCanvas().toDataURL('image/jpeg', (100 / 100));
+    this.preBcakImage = croppedImgB64String;
+    this.mainBcakImage = 'url(' + croppedImgB64String + ')';
+    $('#top-back-tab1').hide();
+    $('#top-back-tab2').show();
+  }
+
+  selectBackImage(className) {
+    this.selBackFilter = className;
+    if ($('#modal_theme_edit_background_image').find('.cropper-hide') != null) {
+      $('#modal_theme_edit_background_image').find('.cropper-hide').addClass(this.selFilter);
+      console.log($('#modal_theme_edit_background_image').find('.cropper-hide'));
+      if (typeof ($('#modal_theme_edit_background_image').find('.cropper-hide').attr('class')) !== 'undefined') {
+        const classList = $('#modal_theme_edit_background_image').find('.cropper-hide').attr('class').split(/\s+/);
+        for (const list of classList) {
+          if (list !== this.selFilter && list !== 'cropper-hide') {
+            $('#modal_theme_edit_background_image').find('.cropper-hide').removeClass(list);
+          }
+        }
+      }
+    }
   }
 
 }

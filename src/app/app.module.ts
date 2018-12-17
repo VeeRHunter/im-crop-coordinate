@@ -20,7 +20,6 @@ import { AngularCropperjsModule } from 'angular-cropperjs';
 import { Ng5SliderModule } from 'ng5-slider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatSliderModule} from '@angular/material/slider';
 
 
 @NgModule({
@@ -44,7 +43,6 @@ import {MatSliderModule} from '@angular/material/slider';
     BrowserModule,
     Ng5SliderModule,
     BrowserAnimationsModule,
-    MatSliderModule,
     HttpClientModule,
     AngularCropperjsModule,
     FormsModule,
