@@ -1,0 +1,21 @@
+.login-email {
+    margin-right: 15px;
+}
+
+#login-form {
+    margin-top: 5px;
+}
+
+.login-password {
+    margin-right: 15px;
+}
+
+.login-button {
+    margin-right: 15px;
+}
+
+.forgot-pass {
+    padding-top: 8px;
+    cursor: pointer;
+    display: flex;
+}

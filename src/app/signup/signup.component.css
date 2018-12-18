@@ -1,0 +1,83 @@
+.signup-component .col-lg-6 {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.signup-component {
+    margin-top: 20px;
+}
+
+.signup-title {
+    background-color: #01bcd4;
+    padding: 10px;
+    color: white;
+    font-size: 20px;
+}
+
+.signup-cover {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+}
+
+.signup-cover .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.signup-body input {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: #f5f5f5;
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.signup-body select {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: #f5f5f5;
+    border-radius: 3px;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.signup-title {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.circle-div {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid #4cae50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto 10px auto;
+    font-size: 20px;
+    color: #4cae50;
+}
+
+.signup-body strong {
+    margin-top: 10px;
+}
+
+.signup-body {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
+}
+
+.signup-small-title {
+    height: 70px;
+    padding-top: 12px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

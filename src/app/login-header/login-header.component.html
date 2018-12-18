@@ -1,0 +1,49 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-boxed">
+    <div class="navbar-header">
+      <a class="navbar-brand"><img src="assets/images/logo.png" alt=""></a>
+
+      <ul class="nav navbar-nav pull-right visible-xs-block">
+        <li><a data-toggle="collapse" data-target="#login-mobile"><i class="icon-tree5"></i></a></li>
+      </ul>
+    </div>
+
+    <div class="navbar-collapse collapse" id="login-mobile">
+
+
+      <ul class="nav navbar-nav navbar-right" id="login-form">
+        <li class="dropdown">
+          <div>
+            <input style="width:120px" [(ngModel)]="userEmail" type="email" class="form-control login-email"
+              placeholder="Email">
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <div>
+            <input style="width:120px" [(ngModel)]="userPass" type="password" class="form-control login-password"
+              placeholder="Password">
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <div>
+            <button style="width:90px" type="password" class="form-control login-button btn-info" (click)="loginConfirm()">
+              Login
+              <i class="icon-arrow-right14 position-right">
+              </i>
+            </button>
+          </div>
+        </li>
+
+        <li class="dropdown">
+          <div>
+            <span class="forgot-pass">
+              Forgot password?
+            </span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

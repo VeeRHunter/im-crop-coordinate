@@ -1,17 +1,4 @@
-/* ------------------------------------------------------------------------------
- *
- *  # User profile
- *
- *  Styles for all user profile layouts
- *
- *  Version: 1.1
- *  Latest update: Mar 6, 2016
- *
- * ---------------------------------------------------------------------------- */
-
-// Cover image layout
-// ------------------------------
-.profile-cover {
+.signup-cover {
     position: relative; // Add extra spacing to navbar
     &+.navbar {
         margin-bottom: (@line-height-computed * 2);
@@ -38,9 +25,6 @@
             bottom: auto;
             top: (@line-height-computed * 2);
         }
-        .signup-title {
-            text-align: center;
-        }
         .media-left,
         .media-right {
             padding: 0;
@@ -59,24 +43,4 @@
             }
         }
     }
-}
-
-// Cover image
-.profile-cover-img {
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 350px;
-    .border-top-radius(@border-radius-base);
-    @media (max-width: @screen-xs-max) {
-        height: 320px;
-    }
-}
-
-// User thumbnail inside cover
-.media .profile-thumb img {
-    width: 100px;
-    height: 100px;
-    border: 3px solid #fff;
-    .box-shadow(0 0 3px fade(#000, 50%));
 }

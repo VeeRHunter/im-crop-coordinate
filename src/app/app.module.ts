@@ -17,9 +17,10 @@ import { ProfileWebProfileComponent } from './profile-web-profile/profile-web-pr
 import { ProfileWebLanguageComponent } from './profile-web-language/profile-web-language.component';
 import { ProfilePortfolioComponent } from './profile-portfolio/profile-portfolio.component';
 import { AngularCropperjsModule } from 'angular-cropperjs';
-import { Ng5SliderModule } from 'ng5-slider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginHeaderComponent } from './login-header/login-header.component';
+import { SignupComponent } from './signup/signup.component';
 
 
 @NgModule({
@@ -38,17 +39,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ProfileWebProfileComponent,
     ProfileWebLanguageComponent,
     ProfilePortfolioComponent,
+    LoginHeaderComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
-    Ng5SliderModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AngularCropperjsModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: BuzzComponent },
+      { path: 'dashboard', component: BuzzComponent },
       { path: 'buzz', component: BuzzComponent },
       {
         path: 'profile', component: ProfileComponent,
@@ -65,6 +67,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
           { path: 'language', component: ProfileWebLanguageComponent }
         ]
       },
+      { path: '', component: SignupComponent },
     ])
   ],
   providers: [],

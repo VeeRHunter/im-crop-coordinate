@@ -1,0 +1,160 @@
+<app-login-header></app-login-header>
+
+<div class="page-container">
+  <div class="page-content">
+    <div class="">
+      <div class="row signup-component">
+        <div class="signup-cover">
+          <div class="signup-title">
+            Congrats Debo, Get off a great start in 3 easy steps
+          </div>
+          <div class="signup-body" *ngIf="part1Show">
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="circle-div">
+                  1
+                </div>
+              </div>
+              <div class="col-sm-10">
+                <div class="signup-small-title h6">
+                  <strong>
+                    Your location
+                  </strong><br>
+                  Let's match you with jobs, new, people near you
+                </div>
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="h6">
+                <strong>Address:*</strong>
+              </div>
+              <div class="h6">
+                <strong>City:</strong>
+              </div>
+              <div class="h6">
+                <input type="text" placeholder="City" [(ngModel)]="signupUser.city">
+              </div>
+              <div class="h6">
+                <strong>State:</strong>
+              </div>
+              <div class="h6">
+                <input type="text" placeholder="State" [(ngModel)]="signupUser.state">
+              </div>
+              <div class="h6">
+                <strong>Select country:*</strong>
+              </div>
+              <div class="h6">
+                <select placeholder="country" [(ngModel)]="signupUser.country">
+                  <option value="" disabled>Country</option>
+                  <option value="nigeria">Nigeria</option>
+                  <option value="usa">United State</option>
+                  <option value="au">Australia</option>
+                  <option value="ca">Canada</option>
+                </select>
+              </div>
+              <div class="h6">
+                <strong>Postal code:</strong>
+              </div>
+              <div class="h6">
+                <input type="number" placeholder="Postal code" [(ngModel)]="signupUser.postalCode">
+              </div>
+            </div>
+
+            <div class="row modal-footer">
+              <button type="button" class="btn btn-info" [disabled]="signupUser.city == '' || signupUser.country == '' || signupUser.state == '' || signupUser.postalCode == ''"
+                (click)="signup1()">Next</button>
+            </div>
+          </div>
+
+          <div class="signup-body" *ngIf="part2Show">
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="circle-div">
+                  2
+                </div>
+              </div>
+              <div class="col-sm-10">
+                <div class="signup-small-title h6">
+                  <strong>
+                    Your Cirremt Status
+                  </strong><br>
+                  Tell us about your current employment status.
+                </div>
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="h6">
+                <strong>What is your current employment status:*</strong>
+              </div>
+              <div class="h6">
+                <select placeholder="employee" [(ngModel)]="signupUser.employee">
+                  <option value="nigeria" selected>Nigeria</option>
+                  <option value="usa">United State</option>
+                  <option value="au">Australia</option>
+                  <option value="ca">Canada</option>
+                </select>
+              </div>
+              <div class="h6">
+                <strong>Your current employer *</strong>
+              </div>
+              <div class="h6">
+                <input type="text" placeholder="Employer" [(ngModel)]="signupUser.employer1">
+                <input type="text" placeholder="type somethins" [(ngModel)]="signupUser.employer2">
+              </div>
+              <div class="h6">
+                <strong>Your postion:</strong>
+              </div>
+              <div class="h6">
+                <input type="text" placeholder="Position" [(ngModel)]="signupUser.position">
+              </div>
+            </div>
+
+            <div class="row modal-footer">
+              <button type="button" class="btn btn-default" (click)="back2()">Back</button>
+              <button type="button" class="btn btn-info" [disabled]="signupUser.employee == '' || signupUser.employer1 == '' || signupUser.employer2 == '' || signupUser.position == ''"
+                (click)="signup2()">Next</button>
+            </div>
+          </div>
+
+          <div class="signup-body" *ngIf="part3Show">
+            <div class="row">
+              <div class="col-sm-2">
+                <div class="circle-div">
+                  3
+                </div>
+              </div>
+              <div class="col-sm-10">
+                <div class="signup-small-title h6">
+                  <strong>
+                    Employment Details
+                  </strong><br>
+                  Tell us about your current employment status.
+                </div>
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="h6">
+                <select placeholder="employment" [(ngModel)]="signupUser.employment">
+                  <option value="nigeria" selected>Nigeria</option>
+                  <option value="usa">United State</option>
+                  <option value="au">Australia</option>
+                  <option value="ca">Canada</option>
+                </select>
+              </div>
+
+              <div class="row modal-footer">
+                <button type="button" class="btn btn-default" (click)="back3()">Back</button>
+                <button type="button" class="btn btn-info" [disabled]="signupUser.employee == ''" (click)="signup3()">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
